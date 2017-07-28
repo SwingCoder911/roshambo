@@ -10,12 +10,20 @@
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-preset-es2015": "^6.24.1",
+    "file-loader": "^0.11.2",
+    "url-loader": "^0.5.9",
     "webpack": "^3.4.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-server": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
+    "prod-server": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback",
+    "dev-build-webpack": "webpack --watch",
+    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
+    "dev": "npm run dev-build-webpack && npm run dev-server"
   },
   "repository": {
     "type": "git",
