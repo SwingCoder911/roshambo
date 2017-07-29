@@ -1,8 +1,10 @@
+var sass = require('node-sass');
+
 const exportConfig = {
-    entry: "./app/index.js",
+    entry: {
+        "app": "./app/js/main.js"    
+    },
     output: {
-        // Make sure to use [name] or [id] in output.filename
-        //  when using multiple entry points
         filename: "[name].bundle.js",
         path: __dirname + "/dist",
         publicPath: "/",
@@ -15,18 +17,10 @@ const exportConfig = {
             test:/\.jsx?$/,
             exclude: /node_modules/,
             loaders: ["babel-loader"]
-        },
+        },        
         {
             test: /\.html$/,
             loader: "file-loader?name=[name].[ext]",
-        },
-        { 
-            test: /\.css$/, 
-            loader: "style-loader!css-loader" 
-        },
-        {
-            test: /\.scss$/,
-            loaders: 'style-loader!css-loader!sass-loader'
         },
         {
             test: /\.(jpe?g|png)$/,
