@@ -9,10 +9,7 @@ class Header{
         headerDom.className = "header";
         if(this.Container !== null){
             this.Container.appendChild(headerDom);
-        }        
-    }
-    Answer(){
-        return 42;
+        }
     }
 }
 
