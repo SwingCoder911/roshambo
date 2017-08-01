@@ -1,0 +1,18 @@
+// ../base/_variables.scss 
+.setup-container{
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.options-list{
+    margin: 3em 0;
+
+    .options-item{
+        border: 1px solid $primary-colour;
+        border-radius: 3rem;
+        padding: 5rem 0;
+        cursor: pointer;
+    }
+}
+
+

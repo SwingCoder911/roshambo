@@ -7,4 +7,11 @@ describe('Option', function() {
       assert(option instanceof Option);
     });
   });
+  describe('#Compare', function(){
+    let rockOption = new Option("Rock", ["Scissors"]);
+    let scissorOption = new Option("Scissors", ["Paper"]);
+    it('Rock should beat Scissors', function(){
+      assert.equal(rockOption.Compare(scissorOption), true);
+    });
+  })
 });

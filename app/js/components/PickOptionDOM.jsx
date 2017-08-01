@@ -1,4 +1,4 @@
-export default class GameSetupDOM{
+export default class PickOptionDOM{
     constructor(model){
         this.Model = model;
         this.Container = document.getElementById('root');
@@ -9,22 +9,22 @@ export default class GameSetupDOM{
         this.Render();
         this.Bind();
     }
-    ChooseMode(key){
-        this.Model.SetMode(key);
+    PickChoice(key){
+        this.Model.SetPlayerChoice(key);
         this.Model.Next();
     }
     Render(){
         let label = this.GetModeLabel();
-        let options = this.GetModeOptions();
+        let choices = this.GetChoiceOptions();
         let container = this.GetDOMContainer();
         container.appendChild(label);
-        container.appendChild(options);
+        container.appendChild(choices);
         this.Container.appendChild(container);
     }
     Bind(){
         this.Container.querySelectorAll('.options-item').forEach((option) => {
             option.addEventListener('click', (event) => {
-                this.ChooseMode(event.target.getAttribute('key'));
+                this.PickChoice(event.target.getAttribute('key'));
             });
         });
     }
@@ -37,26 +37,26 @@ export default class GameSetupDOM{
     GetModeLabel(){
         let label = document.createElement('label');
         label.className = 'area-label';
-        label.innerText = 'Pick a Game Mode!';
+        label.innerText = this.Model.GetCurrentPlayer().Name + '\'s turn to pick!';        
         return label;
     }
-    GetModeOptions(){
+    GetChoiceOptions(){
         let optionsDOM = document.createElement('ul');
         optionsDOM.className = 'options-list row';
         let first = true;
-        for(var key in this.Model.AvailableModes){
+        this.Model.AvailableChoices.forEach(function(choice, key){
             let optionItem = document.createElement('li');
             if(first){
-                optionItem.className = 'col-md-2 col-md-offset-3 options-item';
+                optionItem.className = 'col-md-2 col-md-offset-2 options-item';
                 first = false;
             }else{
-                optionItem.className = 'col-md-2 col-md-offset-2 options-item';
+                optionItem.className = 'col-md-2 col-md-offset-1 options-item';
             }
             
             optionItem.setAttribute('key', key);
-            optionItem.innerText = this.Model.AvailableModes[key];        
+            optionItem.innerText = choice.Name;        
             optionsDOM.appendChild(optionItem);
-        }
+        });
         return optionsDOM;
     }
 }

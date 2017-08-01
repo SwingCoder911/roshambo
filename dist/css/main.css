@@ -1,6 +1,28 @@
 body {
   font-family: Arial, Helvetica, sans-serif; }
 
+ul, p, body {
+  margin: 0;
+  padding: 0; }
+
+ul {
+  list-style-type: none; }
+
 .header {
   width: 100%;
   text-align: center; }
+
+.area-label {
+  font-size: 2rem; }
+
+.setup-container {
+  text-align: center;
+  margin-top: 10vh; }
+
+.options-list {
+  margin: 3em 0; }
+  .options-list .options-item {
+    border: 1px solid #2e6da4;
+    border-radius: 3rem;
+    padding: 5rem 0;
+    cursor: pointer; }

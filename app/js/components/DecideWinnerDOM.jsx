@@ -1,4 +1,4 @@
-export default class GameSetupDOM{
+export default class DecideWinnerDOM{
     constructor(model){
         this.Model = model;
         this.Container = document.getElementById('root');
@@ -9,16 +9,13 @@ export default class GameSetupDOM{
         this.Render();
         this.Bind();
     }
-    ChooseMode(key){
-        this.Model.SetMode(key);
-        this.Model.Next();
-    }
     Render(){
         let label = this.GetModeLabel();
-        let options = this.GetModeOptions();
+        let winner = this.GetWinner();
         let container = this.GetDOMContainer();
+        let actions = this.GetActions();
         container.appendChild(label);
-        container.appendChild(options);
+        container.appendChild(winner);
         this.Container.appendChild(container);
     }
     Bind(){
@@ -37,26 +34,18 @@ export default class GameSetupDOM{
     GetModeLabel(){
         let label = document.createElement('label');
         label.className = 'area-label';
-        label.innerText = 'Pick a Game Mode!';
+        label.innerText = 'The winner is...';
         return label;
     }
-    GetModeOptions(){
-        let optionsDOM = document.createElement('ul');
-        optionsDOM.className = 'options-list row';
-        let first = true;
-        for(var key in this.Model.AvailableModes){
-            let optionItem = document.createElement('li');
-            if(first){
-                optionItem.className = 'col-md-2 col-md-offset-3 options-item';
-                first = false;
-            }else{
-                optionItem.className = 'col-md-2 col-md-offset-2 options-item';
-            }
-            
-            optionItem.setAttribute('key', key);
-            optionItem.innerText = this.Model.AvailableModes[key];        
-            optionsDOM.appendChild(optionItem);
-        }
-        return optionsDOM;
+    GetWinner(){
+        let winnerDOM = document.createElement('h3');
+        winnerDOM.className = 'winner';
+        winnerDOM.innerText = this.Model.GetWinner().Name;
+        return winnerDOM;
+    }
+    GetActions(){
+        let container = document.createElement('div');
+        container.className = 'actions-container';
+        
     }
 }
