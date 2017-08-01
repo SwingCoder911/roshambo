@@ -1,4 +1,3 @@
-/*import Test from '../app/js/classes/Test.jsx'
 var assert = require('assert');
 describe('Array', function() {
   describe('#indexOf()', function() {
@@ -7,12 +6,3 @@ describe('Array', function() {
     });
   });
 });
-
-describe('Header', function(){
-    describe('#Answer', function(){
-        let tester = new Test();        
-        it('Should return the answer to everything', function(){
-           assert.equal(42, tester.Answer());
-        });
-    });
-});*/

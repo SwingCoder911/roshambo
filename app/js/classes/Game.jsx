@@ -18,8 +18,24 @@ const DECIDE_WINNER_STATE = 'decide-winner';
 //State where winner has been decided and the game gets the decision of play again or restart
 const COMPLETE_STATE = 'complete';
 
-export class Game{
+export default class Game{
     constructor(){
-        this.GameState = SET_MODE_STATE;
+        this.Players = [];
+        this.GameState = SETUP_STATE;
+    }
+    RenderState(){
+        switch(this.GameState){
+            case SETUP_STATE:
+
+        }
+    }
+    Next(){
+
+    }
+    GetWinner(){
+        return null;
+    }
+    Reset(){
+
     }
 }
