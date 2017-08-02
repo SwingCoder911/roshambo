@@ -1,3 +1,11 @@
+/**
+ * The PickOption view is the view responsible for receiving user's choice of the provided options.
+ * This view will be repeated for as many times as there are non computer users available.
+ * This view is only responsible for choosing one user's option choice at a time.
+ * This view has access to a mini singleton instance "Model" of the Game object
+ * 
+ * @param model: Game
+ */
 export default class PickOptionDOM{
     constructor(model){
         this.Model = model;

@@ -2,13 +2,19 @@
  * This class is the engine of the game that moves it through it's several states.
  * This class "plays the game".
  * This class owns it's states and no one else should know about the states.
+ * This class is passed a set of options that each player gets to choose from for extensibility.
+ * 
+ * @param choices: Choice[]
  * 
  * TODO: Add best x out of y options
  * TODO: Add number of players
  * TODO: Add more options to pick from
  */
+import {HUMAN_COMPUTER_MODE, COMPUTER_COMPUTER_MODE, AVAILABLE_MODES} from '../config.js';
 import Player from './Player.jsx';
 import Option from './Option.jsx';
+
+//Import DOM Components
 import GameSetupDOM from '../components/GameSetupDOM.jsx';
 import PickOptionDOM from '../components/PickOptionDOM.jsx';
 import DecideWinnerDOM from '../components/DecideWinnerDOM.jsx';
@@ -20,13 +26,6 @@ export const SETUP_STATE = 'setup';
 export const PICK_OPTION_SATE = 'pick-option';
 //State where game decides who won out of all the options and the game gets the decision of play again or restart
 export const DECIDE_WINNER_STATE = 'decide-winner';
-
-export const HUMAN_COMPUTER_MODE = 0;
-export const COMPUTER_COMPUTER_MODE = 1;
-export const AVAILABLE_MODES = {
-    0: 'Human vs Computer',
-    1: 'Computer vs Computer'
-};
 
 export class Game{
     processChoices(choices){
@@ -84,9 +83,6 @@ export class Game{
                     this.CurrentPlayerKey++;
                 }       
                 this.CheckForGeneratedPlayer();
-                break;
-            case DECIDE_WINNER_STATE:                
-                //this.GameState = COMPLETE_STATE;
                 break;
             default:
         }
@@ -163,5 +159,6 @@ export class Game{
     }
     Reset(){
         this.initialize();
+        this.RecordDOM.Clean();
     }
 }

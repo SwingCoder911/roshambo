@@ -1,3 +1,6 @@
+/**
+ * Mini Header view who's job it is to set up the header.
+ */
 class Header{
     constructor(){
         this.Container = document.getElementById("header");

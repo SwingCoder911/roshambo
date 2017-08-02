@@ -1,7 +1,13 @@
+/**
+ * This Record view object's job is to render the upper space displaying what the win record is for each of the players.
+ * This object has access to a singleton instance of the Game object "Model"
+ * 
+ * @param model: Game
+ */
 export default class RecordDOM{
     constructor(model){
         this.Container = document.getElementById("record");
-        this.Container.innerHTML = "";
+        this.Clean();
         this.Model = model;
         this.Render();
     }
@@ -25,5 +31,8 @@ export default class RecordDOM{
             p.appendChild(score);
             this.Container.appendChild(p);
         }
+    }
+    Clean(){
+        this.Container.innerHTML = "";
     }
 }

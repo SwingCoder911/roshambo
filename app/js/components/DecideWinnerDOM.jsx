@@ -1,3 +1,9 @@
+/**
+ * This is the DecideWinner view component. This view object handles all dom concerns and has access to the Game object like a mini singleton field called "Model"
+ * 
+ * @param model: Game
+ *  
+ */
 export default class DecideWinnerDOM{
     constructor(model){
         this.Model = model;

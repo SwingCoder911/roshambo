@@ -1,3 +1,9 @@
+/**
+ * The GameSetup view is the view that starts us off, allowing the player to pick between Human vs Computer or Computer vs Computer modes.
+ * This object's only concern is the dom and has access to a "Model" field that's a mini singleton instance of the Game object
+ * 
+ * @param model: Game
+ */
 export default class GameSetupDOM{
     constructor(model){
         this.Model = model;
