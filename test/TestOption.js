@@ -1,3 +1,6 @@
+/**
+ * This test suite is a start to what should be a huge test suite testing all possible inputs in all methods under this object
+ */
 import Option from '../app/js/classes/Option.jsx';
 var assert = require('assert');
 describe('Option', function() {

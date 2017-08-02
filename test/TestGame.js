@@ -1,3 +1,6 @@
+/**
+ * This test suite is a start to what should be a huge test suite testing all possible inputs in all methods under this object
+ */
 import {Game, SETUP_STATE, PICK_OPTION_SATE} from '../app/js/classes/Game.jsx';
 import Player from '../app/js/classes/Player.jsx';
 import Option from '../app/js/classes/Option.jsx';
