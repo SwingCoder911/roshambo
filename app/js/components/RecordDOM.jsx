@@ -7,7 +7,9 @@ export default class RecordDOM{
     }
     Render(){        
         let first = true;
-        this.Model.Record.forEach((record, i) => {
+        let records = this.Model.Record;
+        for(let i = 0, len = records.length; i < len; i++){
+            let record = records[i];
             let p = document.createElement("p");
             let label = document.createElement("label");
             let score = document.createElement("span");
@@ -22,6 +24,6 @@ export default class RecordDOM{
             p.appendChild(label);
             p.appendChild(score);
             this.Container.appendChild(p);
-        });        
+        }
     }
 }

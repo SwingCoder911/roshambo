@@ -22,11 +22,13 @@ export default class GameSetupDOM{
         this.Container.appendChild(container);
     }
     Bind(){
-        this.Container.querySelectorAll('.options-item').forEach((option) => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for(let i = 0, len = nodeList.length; i < len; i++){
+            let option = nodeList[i];
             option.addEventListener('click', (event) => {
                 this.ChooseMode(event.target.getAttribute('key'));
             });
-        });
+        }
     }
     
     GetDOMContainer(){

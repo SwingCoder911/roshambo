@@ -190,9 +190,10 @@ const AVAILABLE_MODES = {
 class Game {
     processChoices(choices) {
         this.AvailableChoices = [];
-        choices.forEach(choice => {
+        for (let i = 0, len = choices.length; i < len; i++) {
+            let choice = choices[i];
             this.AvailableChoices.push(new __WEBPACK_IMPORTED_MODULE_1__Option_jsx__["a" /* default */](choice.Name, choice.Beats));
-        });
+        }
     }
     initialize() {
         this.Players = [];
@@ -398,11 +399,13 @@ class GameSetupDOM {
         this.Container.appendChild(container);
     }
     Bind() {
-        this.Container.querySelectorAll('.options-item').forEach(option => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for (let i = 0, len = nodeList.length; i < len; i++) {
+            let option = nodeList[i];
             option.addEventListener('click', event => {
                 this.ChooseMode(event.target.getAttribute('key'));
             });
-        });
+        }
     }
 
     GetDOMContainer() {
@@ -468,11 +471,13 @@ class PickOptionDOM {
         this.Container.appendChild(container);
     }
     Bind() {
-        this.Container.querySelectorAll('.options-item').forEach(option => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for (let i = 0, len = nodeList.length; i < len; i++) {
+            let option = nodeList[i];
             option.addEventListener('click', event => {
                 this.PickChoice(event.target.getAttribute('key'));
             });
-        });
+        }
     }
 
     GetDOMContainer() {
@@ -490,7 +495,9 @@ class PickOptionDOM {
         let optionsDOM = document.createElement('ul');
         optionsDOM.className = 'options-list row';
         let first = true;
-        this.Model.AvailableChoices.forEach(function (choice, key) {
+        let choices = this.Model.AvailableChoices;
+        for (let i = 0, len = choices.length; i < len; i++) {
+            let choice = choices[i];
             let optionItem = document.createElement('li');
             if (first) {
                 optionItem.className = 'col-md-2 col-md-offset-2 options-item';
@@ -499,10 +506,10 @@ class PickOptionDOM {
                 optionItem.className = 'col-md-2 col-md-offset-1 options-item';
             }
 
-            optionItem.setAttribute('key', key);
+            optionItem.setAttribute('key', i);
             optionItem.innerText = choice.Name;
             optionsDOM.appendChild(optionItem);
-        });
+        }
         return optionsDOM;
     }
 }
@@ -560,11 +567,13 @@ class DecideWinnerDOM {
         this.Container.appendChild(container);
     }
     Bind() {
-        this.Container.querySelectorAll('.options-item').forEach(option => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for (let i = 0, len = nodeList.length; i < len; i++) {
+            let option = nodeList[i];
             option.addEventListener('click', event => {
                 this.ChooseMode(event.target.getAttribute('key'));
             });
-        });
+        }
     }
 
     GetDOMContainer() {
@@ -575,7 +584,8 @@ class DecideWinnerDOM {
     GetPicks() {
         let container = document.createElement('div');
         container.className = "picks-container";
-        this.Model.Players.forEach(player => {
+        for (let i = 0, len = this.Model.Players.length; i < len; i++) {
+            let player = this.Model.Players[i];
             let p = document.createElement('p');
             let label = document.createElement('label');
             let span = document.createElement('span');
@@ -585,7 +595,7 @@ class DecideWinnerDOM {
             p.appendChild(label);
             p.appendChild(span);
             container.appendChild(p);
-        });
+        }
         return container;
     }
     GetModeLabel() {
@@ -604,13 +614,14 @@ class DecideWinnerDOM {
     GetActions() {
         let container = document.createElement('div');
         container.className = 'actions-container';
-        this.Actions.forEach(action => {
+        for (let i = 0, len = this.Actions.length; i < len; i++) {
+            let action = this.Actions[i];
             let button = document.createElement('button');
             button.onclick = action.Event;
             button.className = action.Class;
             button.innerText = action.Name;
             container.appendChild(button);
-        });
+        }
         return container;
     }
 }
@@ -631,7 +642,9 @@ class RecordDOM {
     }
     Render() {
         let first = true;
-        this.Model.Record.forEach((record, i) => {
+        let records = this.Model.Record;
+        for (let i = 0, len = records.length; i < len; i++) {
+            let record = records[i];
             let p = document.createElement("p");
             let label = document.createElement("label");
             let score = document.createElement("span");
@@ -646,7 +659,7 @@ class RecordDOM {
             p.appendChild(label);
             p.appendChild(score);
             this.Container.appendChild(p);
-        });
+        }
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = RecordDOM;

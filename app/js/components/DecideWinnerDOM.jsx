@@ -38,11 +38,13 @@ export default class DecideWinnerDOM{
         this.Container.appendChild(container);
     }
     Bind(){
-        this.Container.querySelectorAll('.options-item').forEach((option) => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for(let i = 0, len = nodeList.length; i < len; i++){
+            let option = nodeList[i];
             option.addEventListener('click', (event) => {
                 this.ChooseMode(event.target.getAttribute('key'));
             });
-        });
+        }
     }
     
     GetDOMContainer(){
@@ -53,7 +55,8 @@ export default class DecideWinnerDOM{
     GetPicks(){
         let container = document.createElement('div');
         container.className = "picks-container";
-        this.Model.Players.forEach((player) => {
+        for(let i = 0, len = this.Model.Players.length; i < len; i++){
+            let player = this.Model.Players[i];
             let p = document.createElement('p');
             let label = document.createElement('label');
             let span = document.createElement('span');
@@ -63,7 +66,7 @@ export default class DecideWinnerDOM{
             p.appendChild(label);
             p.appendChild(span);
             container.appendChild(p);
-        })
+        }
         return container;
     }
     GetModeLabel(){
@@ -82,13 +85,14 @@ export default class DecideWinnerDOM{
     GetActions(){
         let container = document.createElement('div');
         container.className = 'actions-container';
-        this.Actions.forEach((action) => {
+        for(let i = 0, len = this.Actions.length; i < len; i++){
+            let action = this.Actions[i];
             let button = document.createElement('button');
             button.onclick = action.Event;
             button.className = action.Class;
             button.innerText = action.Name;
             container.appendChild(button);
-        });
+        }
         return container;
     }
 }

@@ -22,11 +22,13 @@ export default class PickOptionDOM{
         this.Container.appendChild(container);
     }
     Bind(){
-        this.Container.querySelectorAll('.options-item').forEach((option) => {
+        let nodeList = this.Container.querySelectorAll('.options-item');
+        for(let i = 0, len = nodeList.length; i < len; i++){
+            let option = nodeList[i];
             option.addEventListener('click', (event) => {
                 this.PickChoice(event.target.getAttribute('key'));
             });
-        });
+        }
     }
     
     GetDOMContainer(){
@@ -44,7 +46,9 @@ export default class PickOptionDOM{
         let optionsDOM = document.createElement('ul');
         optionsDOM.className = 'options-list row';
         let first = true;
-        this.Model.AvailableChoices.forEach(function(choice, key){
+        let choices = this.Model.AvailableChoices;
+        for(let i = 0, len = choices.length; i < len; i++){
+            let choice = choices[i];
             let optionItem = document.createElement('li');
             if(first){
                 optionItem.className = 'col-md-2 col-md-offset-2 options-item';
@@ -53,10 +57,10 @@ export default class PickOptionDOM{
                 optionItem.className = 'col-md-2 col-md-offset-1 options-item';
             }
             
-            optionItem.setAttribute('key', key);
+            optionItem.setAttribute('key', i);
             optionItem.innerText = choice.Name;        
             optionsDOM.appendChild(optionItem);
-        });
+        }
         return optionsDOM;
     }
 }

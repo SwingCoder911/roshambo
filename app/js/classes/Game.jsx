@@ -31,9 +31,10 @@ export const AVAILABLE_MODES = {
 export class Game{
     processChoices(choices){
         this.AvailableChoices = [];        
-        choices.forEach((choice) => {
+        for(let i = 0, len = choices.length; i < len; i++){
+            let choice = choices[i];
             this.AvailableChoices.push(new Option(choice.Name, choice.Beats));
-        });        
+        }
     }
     initialize(){
         this.Players = [];
