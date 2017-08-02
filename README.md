@@ -9,6 +9,6 @@ Next step is Rock Paper Scissors Lizard Spock!
 There's a couple tests using mocha for some basic testing
 
 ## Todo
-Add best x out of y options
-Add number of players
-Add more options to pick from
+- Add best x out of y options
+- Add number of players
+- Add more options to pick from
