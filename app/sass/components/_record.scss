@@ -1,0 +1,19 @@
+.record-container{
+    margin-top: 5vh;
+    height: 1.5rem;
+}
+.record-item > label{
+    margin-right: 3%;
+    @media (max-width: 50rem){
+        text-align: right;
+        display: inline-block;
+        width: 50%;
+    }
+}
+
+.record-item > span{
+    @media (max-width: 50rem){
+        display: inline-block;
+        width: 45%;
+    }
+}

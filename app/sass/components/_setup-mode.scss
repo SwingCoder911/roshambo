@@ -1,8 +1,4 @@
 // ../base/_variables.scss 
-.setup-container{
-    text-align: center;
-    margin-top: 10vh;
-}
 
 .options-list{
     margin: 3em 0;
@@ -12,6 +8,12 @@
         border-radius: 3rem;
         padding: 5rem 0;
         cursor: pointer;
+
+        @media (max-width: 50rem){
+            margin-top: 3rem;
+            margin-bottom: 3rem;         
+            font-size: 3rem;   
+        }
     }
 }
 

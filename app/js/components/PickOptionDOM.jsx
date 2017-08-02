@@ -31,7 +31,7 @@ export default class PickOptionDOM{
     
     GetDOMContainer(){
         let container = document.createElement('div');
-        container.className = 'setup-container container';
+        container.className = 'container game-container pick-option-container';
         return container;
     }
     GetModeLabel(){

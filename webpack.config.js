@@ -17,7 +17,11 @@ const exportConfig = {
             test:/\.jsx?$/,
             exclude: /node_modules/,
             loaders: ["babel-loader"]
-        },        
+        },
+        {
+            test: /\.css$/,
+            loader: "css-loader"
+        },
         {
             test: /\.html$/,
             loader: "file-loader?name=[name].[ext]",

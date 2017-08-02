@@ -144,6 +144,7 @@ module.exports = __webpack_require__.p + "index.html";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_GameSetupDOM_jsx__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_PickOptionDOM_jsx__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_DecideWinnerDOM_jsx__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_RecordDOM_jsx__ = __webpack_require__(29);
 /**
  * This class is the engine of the game that moves it through it's several states.
  * This class "plays the game".
@@ -159,6 +160,7 @@ module.exports = __webpack_require__.p + "index.html";
 
 
 
+
 //First state where we pick the mode of player v computer or computer v computer
 const SETUP_STATE = 'setup';
 /* unused harmony export SETUP_STATE */
@@ -167,13 +169,9 @@ const SETUP_STATE = 'setup';
 const PICK_OPTION_SATE = 'pick-option';
 /* unused harmony export PICK_OPTION_SATE */
 
-//State where game decides who won out of all the options
+//State where game decides who won out of all the options and the game gets the decision of play again or restart
 const DECIDE_WINNER_STATE = 'decide-winner';
 /* unused harmony export DECIDE_WINNER_STATE */
-
-//State where winner has been decided and the game gets the decision of play again or restart
-const COMPLETE_STATE = 'complete';
-/* unused harmony export COMPLETE_STATE */
 
 
 const HUMAN_COMPUTER_MODE = 0;
@@ -198,6 +196,7 @@ class Game {
     }
     initialize() {
         this.Players = [];
+        this.Record = [];
         this.GameState = SETUP_STATE;
         this.GameMode = null;
         this.CurrentDOM = null;
@@ -219,11 +218,12 @@ class Game {
                 break;
             case PICK_OPTION_SATE:
                 this.CurrentDOM = new __WEBPACK_IMPORTED_MODULE_3__components_PickOptionDOM_jsx__["a" /* default */](this);
+                this.RecordDOM = new __WEBPACK_IMPORTED_MODULE_5__components_RecordDOM_jsx__["a" /* default */](this);
                 break;
             case DECIDE_WINNER_STATE:
                 this.CurrentDOM = new __WEBPACK_IMPORTED_MODULE_4__components_DecideWinnerDOM_jsx__["a" /* default */](this);
+                this.RecordDOM = new __WEBPACK_IMPORTED_MODULE_5__components_RecordDOM_jsx__["a" /* default */](this);
                 break;
-            case COMPLETE_STATE:
             default:
         }
     }
@@ -232,6 +232,7 @@ class Game {
             case SETUP_STATE:
                 this.GameState = PICK_OPTION_SATE;
                 this.CurrentPlayerKey = 0;
+                this.CheckForGeneratedPlayer();
                 break;
             case PICK_OPTION_SATE:
                 if (this.CurrentPlayerKey === this.Players.length - 1) {
@@ -240,14 +241,24 @@ class Game {
                 } else {
                     this.CurrentPlayerKey++;
                 }
+                this.CheckForGeneratedPlayer();
                 break;
             case DECIDE_WINNER_STATE:
-                this.GameState = COMPLETE_STATE;
+                //this.GameState = COMPLETE_STATE;
                 break;
-            case COMPLETE_STATE:
             default:
         }
         this.RenderState();
+        let currentPlayer = this.GetCurrentPlayer();
+        if (currentPlayer instanceof __WEBPACK_IMPORTED_MODULE_0__Player_jsx__["a" /* default */] && currentPlayer.IsComputer) {
+            this.Next();
+        }
+    }
+    CheckForGeneratedPlayer() {
+        let currentPlayer = this.GetCurrentPlayer();
+        if (currentPlayer instanceof __WEBPACK_IMPORTED_MODULE_0__Player_jsx__["a" /* default */] && currentPlayer.IsComputer) {
+            this.GenerateRandomPlayerChoice();
+        }
     }
     GetWinner() {
         if (this.Players.length > 2) {
@@ -256,19 +267,25 @@ class Game {
         if (this.Players.length < 2) {
             console.error("Not enough players signed up!");
         }
-        console.log(this.Players[0].Choice);
-        console.log(this.Players[1].Choice);
         if (this.Players[0].Choice.Compare(this.Players[1].Choice)) {
+            this.Record[0]++;
             return this.Players[0];
-        } else {
+        } else if (this.Players[1].Choice.Compare(this.Players[0].Choice)) {
+            this.Record[1]++;
             return this.Players[1];
         }
+        return null;
+    }
+    Replay() {
+        this.GameState = SETUP_STATE;
+        this.Next();
     }
     AddPlayer(player) {
         if (!player instanceof __WEBPACK_IMPORTED_MODULE_0__Player_jsx__["a" /* default */]) {
             return;
         }
         this.Players.push(player);
+        this.Record.push(0);
     }
     SetMode(key) {
         if (this.AvailableModes[key] === undefined) {
@@ -280,6 +297,10 @@ class Game {
         } else {
             this.SetComputerComputerMode();
         }
+    }
+    GenerateRandomPlayerChoice() {
+        let choice = Math.floor(Math.random() * this.AvailableChoices.length);
+        this.SetPlayerChoice(choice);
     }
     SetPlayerChoice(key) {
         this.Players[this.CurrentPlayerKey].SetChoice(this.AvailableChoices[key]);
@@ -293,6 +314,9 @@ class Game {
         this.AddPlayer(new __WEBPACK_IMPORTED_MODULE_0__Player_jsx__["a" /* default */]("Computer"));
     }
     GetCurrentPlayer() {
+        if (this.CurrentPlayerKey >= this.Players.length) {
+            return null;
+        }
         return this.Players[this.CurrentPlayerKey];
     }
     Reset() {
@@ -313,6 +337,7 @@ class Player {
     constructor(name) {
         this.Name = name;
         this.Choice = null;
+        this.IsComputer = this.Name.toLowerCase() === 'computer';
     }
     SetChoice(choice) {
         if (!choice instanceof __WEBPACK_IMPORTED_MODULE_0__Option_jsx__["a" /* default */]) {
@@ -382,7 +407,7 @@ class GameSetupDOM {
 
     GetDOMContainer() {
         let container = document.createElement('div');
-        container.className = 'setup-container container';
+        container.className = 'container game-container game-setup-container';
         return container;
     }
     GetModeLabel() {
@@ -452,7 +477,7 @@ class PickOptionDOM {
 
     GetDOMContainer() {
         let container = document.createElement('div');
-        container.className = 'setup-container container';
+        container.className = 'container game-container pick-option-container';
         return container;
     }
     GetModeLabel() {
@@ -502,6 +527,19 @@ class DecideWinnerDOM {
     constructor(model) {
         this.Model = model;
         this.Container = document.getElementById('root');
+        this.Actions = [{
+            Name: "Reset",
+            Class: "btn btn-default",
+            Event: () => {
+                this.Model.Reset();
+            }
+        }, {
+            Name: "Play Again!",
+            Class: "btn btn-primary",
+            Event: () => {
+                this.Model.Replay();
+            }
+        }];
         if (!this.Container) {
             return;
         }
@@ -510,12 +548,15 @@ class DecideWinnerDOM {
         this.Bind();
     }
     Render() {
+        let picks = this.GetPicks();
         let label = this.GetModeLabel();
         let winner = this.GetWinner();
         let container = this.GetDOMContainer();
         let actions = this.GetActions();
+        container.appendChild(picks);
         container.appendChild(label);
         container.appendChild(winner);
+        container.appendChild(actions);
         this.Container.appendChild(container);
     }
     Bind() {
@@ -528,7 +569,23 @@ class DecideWinnerDOM {
 
     GetDOMContainer() {
         let container = document.createElement('div');
-        container.className = 'setup-container container';
+        container.className = 'container game-container decide-winner-container';
+        return container;
+    }
+    GetPicks() {
+        let container = document.createElement('div');
+        container.className = "picks-container";
+        this.Model.Players.forEach(player => {
+            let p = document.createElement('p');
+            let label = document.createElement('label');
+            let span = document.createElement('span');
+            p.className = 'pick';
+            label.innerText = player.Name + "'s pick: ";
+            span.innerText = player.Choice.Name;
+            p.appendChild(label);
+            p.appendChild(span);
+            container.appendChild(p);
+        });
         return container;
     }
     GetModeLabel() {
@@ -538,17 +595,61 @@ class DecideWinnerDOM {
         return label;
     }
     GetWinner() {
+        let winner = this.Model.GetWinner();
         let winnerDOM = document.createElement('h3');
         winnerDOM.className = 'winner';
-        winnerDOM.innerText = this.Model.GetWinner().Name;
+        winnerDOM.innerText = !winner ? "it's a Tie!" : winner.Name;
         return winnerDOM;
     }
     GetActions() {
         let container = document.createElement('div');
         container.className = 'actions-container';
+        this.Actions.forEach(action => {
+            let button = document.createElement('button');
+            button.onclick = action.Event;
+            button.className = action.Class;
+            button.innerText = action.Name;
+            container.appendChild(button);
+        });
+        return container;
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = DecideWinnerDOM;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class RecordDOM {
+    constructor(model) {
+        this.Container = document.getElementById("record");
+        this.Container.innerHTML = "";
+        this.Model = model;
+        this.Render();
+    }
+    Render() {
+        let first = true;
+        this.Model.Record.forEach((record, i) => {
+            let p = document.createElement("p");
+            let label = document.createElement("label");
+            let score = document.createElement("span");
+            if (first) {
+                p.className = "record-item col-md-2 col-md-offset-3";
+                first = false;
+            } else {
+                p.className = "record-item col-md-2 col-md-offset-2";
+            }
+            label.innerText = this.Model.Players[i].Name + " Score: ";
+            score.innerText = record;
+            p.appendChild(label);
+            p.appendChild(score);
+            this.Container.appendChild(p);
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = RecordDOM;
 
 
 /***/ })

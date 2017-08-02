@@ -1,0 +1,30 @@
+.decide-winner-container{
+    .winner{
+        font-size: 3rem;
+    }
+    .picks-container{
+        display: flex;
+        .pick {
+            flex: 1;
+            label{
+                margin-right: 1rem;
+                font-size: 2rem;
+                font-weight: normal;
+            }
+            span{
+                @media (max-width: 39rem){
+                    display: block;
+                }
+            }
+        } 
+        .area-label{
+            margin-top: 1rem;
+        }
+    }
+    .actions-container{
+        button{
+            margin: 1rem;
+            padding: 1rem 1.5rem;
+        }
+    }
+}

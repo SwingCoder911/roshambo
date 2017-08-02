@@ -12,15 +12,14 @@ import Option from './Option.jsx';
 import GameSetupDOM from '../components/GameSetupDOM.jsx';
 import PickOptionDOM from '../components/PickOptionDOM.jsx';
 import DecideWinnerDOM from '../components/DecideWinnerDOM.jsx';
+import RecordDOM from '../components/RecordDOM.jsx';
 
 //First state where we pick the mode of player v computer or computer v computer
 export const SETUP_STATE = 'setup';
 //State where players/computers actually pick options
 export const PICK_OPTION_SATE = 'pick-option';
-//State where game decides who won out of all the options
+//State where game decides who won out of all the options and the game gets the decision of play again or restart
 export const DECIDE_WINNER_STATE = 'decide-winner';
-//State where winner has been decided and the game gets the decision of play again or restart
-export const COMPLETE_STATE = 'complete';
 
 export const HUMAN_COMPUTER_MODE = 0;
 export const COMPUTER_COMPUTER_MODE = 1;
@@ -38,9 +37,10 @@ export class Game{
     }
     initialize(){
         this.Players = [];
+        this.Record = [];
         this.GameState = SETUP_STATE;
         this.GameMode = null;
-        this.CurrentDOM = null;
+        this.CurrentDOM = null;        
         this.CurrentPlayerKey = null;
         this.AvailableModes = AVAILABLE_MODES;
         this.RenderState();
@@ -59,11 +59,12 @@ export class Game{
                 break;
             case PICK_OPTION_SATE:
                 this.CurrentDOM = new PickOptionDOM(this);
+                this.RecordDOM = new RecordDOM(this);
                 break;
             case DECIDE_WINNER_STATE:
                 this.CurrentDOM = new DecideWinnerDOM(this);
-                break;
-            case COMPLETE_STATE:
+                this.RecordDOM = new RecordDOM(this);
+                break;            
             default:
         }
     }
@@ -72,22 +73,33 @@ export class Game{
             case SETUP_STATE:
                 this.GameState = PICK_OPTION_SATE;
                 this.CurrentPlayerKey = 0;
+                this.CheckForGeneratedPlayer();
                 break;
-            case PICK_OPTION_SATE:                
+            case PICK_OPTION_SATE:       
                 if(this.CurrentPlayerKey === (this.Players.length - 1)){
                     this.GameState = DECIDE_WINNER_STATE;
                     this.CurrentPlayerKey = -1;
                 }else{
                     this.CurrentPlayerKey++;
-                }                                
+                }       
+                this.CheckForGeneratedPlayer();
                 break;
             case DECIDE_WINNER_STATE:                
-                this.GameState = COMPLETE_STATE;
+                //this.GameState = COMPLETE_STATE;
                 break;
-            case COMPLETE_STATE:
             default:
         }
         this.RenderState();
+        let currentPlayer = this.GetCurrentPlayer();
+        if(currentPlayer instanceof Player && currentPlayer.IsComputer){
+            this.Next();
+        }
+    }
+    CheckForGeneratedPlayer(){
+        let currentPlayer = this.GetCurrentPlayer();
+        if(currentPlayer instanceof Player && currentPlayer.IsComputer){
+            this.GenerateRandomPlayerChoice();                    
+        }
     }
     GetWinner(){
         if(this.Players.length > 2){
@@ -96,19 +108,25 @@ export class Game{
         if(this.Players.length < 2){
             console.error("Not enough players signed up!");
         }
-        console.log(this.Players[0].Choice);
-        console.log(this.Players[1].Choice);
         if(this.Players[0].Choice.Compare(this.Players[1].Choice)){
+            this.Record[0]++;
             return this.Players[0];
-        }else{
+        }else if(this.Players[1].Choice.Compare(this.Players[0].Choice)){
+            this.Record[1]++;
             return this.Players[1];
         }
+        return null;
+    }
+    Replay(){        
+        this.GameState = SETUP_STATE;
+        this.Next();
     }
     AddPlayer(player){
         if(!player instanceof Player){
             return;
         }
         this.Players.push(player);
+        this.Record.push(0);
     }
     SetMode(key){
         if(this.AvailableModes[key] === undefined){
@@ -120,6 +138,10 @@ export class Game{
         }else{
             this.SetComputerComputerMode();
         }
+    }
+    GenerateRandomPlayerChoice(){
+        let choice = Math.floor(Math.random() * (this.AvailableChoices.length));
+        this.SetPlayerChoice(choice);
     }
     SetPlayerChoice(key){
         this.Players[this.CurrentPlayerKey].SetChoice(this.AvailableChoices[key]);
@@ -133,6 +155,9 @@ export class Game{
         this.AddPlayer(new Player("Computer"));
     }
     GetCurrentPlayer(){
+        if(this.CurrentPlayerKey >= this.Players.length){
+            return null;
+        }
         return this.Players[this.CurrentPlayerKey];
     }
     Reset(){
