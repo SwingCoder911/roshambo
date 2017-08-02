@@ -153,8 +153,8 @@ export class Game{
         this.AddPlayer(new Player("Computer"));
     }
     SetComputerComputerMode(){
-        this.AddPlayer(new Player("Computer"));
-        this.AddPlayer(new Player("Computer"));
+        this.AddPlayer(new Player("Computer 1"));
+        this.AddPlayer(new Player("Computer 2"));
     }
     GetCurrentPlayer(){
         if(this.CurrentPlayerKey >= this.Players.length){

@@ -16,14 +16,20 @@ ul {
 .game-container {
   text-align: center;
   margin-top: 5vh;
-  background: rgba(183, 112, 51, 0.2);
-  padding: 1rem; }
+  background: rgba(99, 160, 212, 0.2);
+  padding: 3rem 1rem; }
 
 .area-label {
   font-size: 2rem; }
 
 .decide-winner-container .winner {
-  font-size: 3rem; }
+  font-size: 3rem;
+  display: block;
+  width: 20rem;
+  padding: 1.5rem 0;
+  margin: 1rem auto;
+  background: #5cb85c;
+  color: #FFF; }
 
 .decide-winner-container .picks-container {
   display: flex; }
@@ -33,9 +39,12 @@ ul {
       margin-right: 1rem;
       font-size: 2rem;
       font-weight: normal; }
-    @media (max-width: 39rem) {
-      .decide-winner-container .picks-container .pick span {
-        display: block; } }
+    .decide-winner-container .picks-container .pick span {
+      font-size: 2rem;
+      font-weight: normal; }
+      @media (max-width: 39rem) {
+        .decide-winner-container .picks-container .pick span {
+          display: block; } }
   .decide-winner-container .picks-container .area-label {
     margin-top: 1rem; }
 

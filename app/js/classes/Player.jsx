@@ -12,7 +12,7 @@ export default class Player{
     constructor(name){
         this.Name = name;
         this.Choice = null;
-        this.IsComputer = this.Name.toLowerCase() === COMPUTER_KEY;
+        this.IsComputer = this.Name.toLowerCase().indexOf(COMPUTER_KEY) !== -1;
     }
     SetChoice(choice){
         if(!choice instanceof Option){

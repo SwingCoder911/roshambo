@@ -1,6 +1,12 @@
 .decide-winner-container{
     .winner{
         font-size: 3rem;
+        display: block;
+        width: 20rem;
+        padding: 1.5rem 0;
+        margin: 1rem auto;
+        background: $success-colour;
+        color: #FFF;
     }
     .picks-container{
         display: flex;
@@ -12,6 +18,8 @@
                 font-weight: normal;
             }
             span{
+                font-size: 2rem;
+                font-weight: normal;
                 @media (max-width: 39rem){
                     display: block;
                 }
