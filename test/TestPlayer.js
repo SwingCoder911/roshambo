@@ -3,7 +3,7 @@ import Option from '../app/js/classes/Option.jsx';
 var assert = require('assert');
 describe('Player', function() {
   describe('#Constructor()', function() {
-    let player = new Player();
+    let player = new Player("Batman");
     it('Player constructor creates a player', function() {
       assert(player instanceof Player);
     });

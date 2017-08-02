@@ -33,6 +33,9 @@ export default class RecordDOM{
         }
     }
     Clean(){
+        if(!this.Container){
+            return;
+        }
         this.Container.innerHTML = "";
     }
 }

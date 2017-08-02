@@ -29,6 +29,9 @@ export const DECIDE_WINNER_STATE = 'decide-winner';
 
 export class Game{
     processChoices(choices){
+        if(!choices){
+            return;
+        }
         this.AvailableChoices = [];        
         for(let i = 0, len = choices.length; i < len; i++){
             let choice = choices[i];
@@ -101,9 +104,11 @@ export class Game{
     GetWinner(){
         if(this.Players.length > 2){
             console.error("Too many players for this iteration.");
+            return null;
         }
         if(this.Players.length < 2){
             console.error("Not enough players signed up!");
+            return null;
         }
         if(this.Players[0].Choice.Compare(this.Players[1].Choice)){
             this.Record[0]++;

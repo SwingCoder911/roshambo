@@ -1,7 +1,7 @@
 /**
  * Mini Header view who's job it is to set up the header.
  */
-class Header{
+export default class Header{
     constructor(){
         this.Container = document.getElementById("header");
         this.Render();
@@ -15,5 +15,3 @@ class Header{
         }
     }
 }
-
-export default Header;
